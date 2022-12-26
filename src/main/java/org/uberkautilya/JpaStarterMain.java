@@ -1,5 +1,6 @@
 package org.uberkautilya;
 
+import org.uberkautilya.entity.AccessCard;
 import org.uberkautilya.entity.Employee;
 import org.uberkautilya.entity.EmployeeType;
 
@@ -25,9 +26,23 @@ public class JpaStarterMain {
             deleteEmployee(entityManager, employee);
         }
 
+        createAccessCards(entityManager);
+
         entityManager.close();
         myAppEntityManagerFactory.close();
 
+    }
+
+    private static void createAccessCards(EntityManager entityManager) {
+        //Without one-to-one mapping, there would be no link between employee instance and the access cards.
+        //Even if linked via the accessCard.getId() it would not be a foreign key relationship
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        AccessCard accessCard = new AccessCard(new Date(), true, "0.1");
+        entityManager.persist(accessCard);
+
+        transaction.commit();
     }
 
     private static void deleteEmployee(EntityManager entityManager, Employee employee) {
