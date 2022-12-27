@@ -50,7 +50,8 @@ public class Employee {
     @Transient
     private String notToBePersisted;
 
-    @OneToOne
+    //FetchType.EAGER is the default behavior. When LAZY, JPA fetches the accessCard only when it is explicitly used in the code
+    @OneToOne(fetch = FetchType.LAZY)
     private AccessCard accessCard;
 
     public AccessCard getAccessCard() {
@@ -120,6 +121,18 @@ public class Employee {
                 ", type=" + type +
                 ", notToBePersisted='" + notToBePersisted + '\'' +
                 ", accessCard=" + accessCard +
+                '}';
+    }
+
+    public String toStringWithNoAccessCard() {
+        return "Employee{" +
+                "id=" + id +
+                ", ssn='" + ssn + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", dob=" + dob +
+                ", type=" + type +
+                ", notToBePersisted='" + notToBePersisted + '\'' +
                 '}';
     }
 }

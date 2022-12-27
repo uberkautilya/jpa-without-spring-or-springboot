@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import java.math.BigInteger;
 import java.util.Date;
 
-public class JpaStarterMain {
+public class JpaStarterWrite {
     public static void main(String[] args) {
 
         //Need an entityManager to persist - a service object from JPA that manages your entities (data holders)
