@@ -50,6 +50,17 @@ public class Employee {
     @Transient
     private String notToBePersisted;
 
+    @OneToOne
+    private AccessCard accessCard;
+
+    public AccessCard getAccessCard() {
+        return accessCard;
+    }
+
+    public void setAccessCard(AccessCard accessCard) {
+        this.accessCard = accessCard;
+    }
+
     public String getSsn() {
         return ssn;
     }
@@ -108,6 +119,7 @@ public class Employee {
                 ", dob=" + dob +
                 ", type=" + type +
                 ", notToBePersisted='" + notToBePersisted + '\'' +
+                ", accessCard=" + accessCard +
                 '}';
     }
 }

@@ -55,4 +55,14 @@ public class AccessCard {
     public void setFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
     }
+
+    @Override
+    public String toString() {
+        return "AccessCard{" +
+                "id=" + id +
+                ", issueDate=" + issueDate +
+                ", isActive=" + isActive +
+                ", firmwareVersion='" + firmwareVersion + '\'' +
+                '}';
+    }
 }

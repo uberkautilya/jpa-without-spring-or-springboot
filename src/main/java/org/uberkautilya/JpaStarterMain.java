@@ -26,7 +26,7 @@ public class JpaStarterMain {
             deleteEmployee(entityManager, employee);
         }
 
-        createAccessCards(entityManager);
+//        createAccessCards(entityManager);
 
         entityManager.close();
         myAppEntityManagerFactory.close();
@@ -73,18 +73,28 @@ public class JpaStarterMain {
     }
 
     private static void createEmployees(EntityManager entityManager) {
-        Employee employee = getEmployee(null, "Kautilya", "sss", null);
-        Employee employee1 = getEmployee(null, "Kautilya1", "ssn", null);
-        Employee employee2 = getEmployee(null, "Kautilya2", "ssl", new Date());
+        AccessCard accessCard = getAccessCard();
+        Employee employee1 = getEmployee(null, "Kautilya1", "sss", null, accessCard);
+        Employee employee2 = getEmployee(null, "Kautilya2", "ssn", null, accessCard);
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.persist(employee);
         entityManager.persist(employee1);
         entityManager.persist(employee2);
+        //The order of insertion doesn't matter - as it is within a transaction and managed by JPA?
+        //Also, when there is no cascade strategy, the save of the accessCard needs to be explicit
+        entityManager.persist(accessCard);
 
         transaction.commit();
+    }
+
+    private static AccessCard getAccessCard() {
+        AccessCard accessCard = new AccessCard();
+        accessCard.setIssueDate(new Date());
+        accessCard.setActive(true);
+        accessCard.setFirmwareVersion("0.0.1");
+        return accessCard;
     }
 
     private static Employee readEmployeeWithPrimaryKey(EntityManager entityManager) {
@@ -95,13 +105,15 @@ public class JpaStarterMain {
         return employee;
     }
 
-    private static Employee getEmployee(BigInteger id, String name, String ssn, Date dob) {
+    private static Employee getEmployee(BigInteger id, String name, String ssn, Date dob, AccessCard accessCard) {
         Employee employee = new Employee();
         employee.setId(id);
         employee.setName(name);
         employee.setSsn(ssn);
         employee.setDob(dob);
         employee.setType(EmployeeType.CONTRACTOR);
+
+        employee.setAccessCard(accessCard);
         return employee;
     }
 }
