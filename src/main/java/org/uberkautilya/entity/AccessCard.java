@@ -1,9 +1,6 @@
 package org.uberkautilya.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,6 +11,13 @@ public class AccessCard {
     private Date issueDate;
     private boolean isActive;
     private String firmwareVersion;
+    /**
+     * A mappedBy property here tells that the owner is Employee - primary relationship, while AccessCard's backlink is the secondary one
+     * In short it tells this object is the accessCard referred in the Employee - directionality
+     * Thus when accessing an accessCard, JPA would not fetch from DB the accessCard of the related employee - avoid circularity
+     */
+    @OneToOne(mappedBy = "accessCard")
+    private Employee owner;
 
     public AccessCard() {
     }
@@ -54,6 +58,14 @@ public class AccessCard {
 
     public void setFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
+    }
+
+    public Employee getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Employee owner) {
+        this.owner = owner;
     }
 
     @Override

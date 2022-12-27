@@ -51,7 +51,7 @@ public class Employee {
     private String notToBePersisted;
 
     //FetchType.EAGER is the default behavior. When LAZY, JPA fetches the accessCard only when it is explicitly used in the code
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private AccessCard accessCard;
 
     public AccessCard getAccessCard() {

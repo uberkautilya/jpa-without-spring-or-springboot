@@ -22,7 +22,7 @@ public class JpaStarterWrite {
         createEmployees(entityManager);
         Employee employee = readEmployeeWithPrimaryKey(entityManager);
         updateEmployee(entityManager, employee);
-        if (true) {
+        if (false) {
             deleteEmployee(entityManager, employee);
         }
 
@@ -76,6 +76,8 @@ public class JpaStarterWrite {
         AccessCard accessCard = getAccessCard();
         Employee employee1 = getEmployee(null, "Kautilya1", "sss", null, accessCard);
         Employee employee2 = getEmployee(null, "Kautilya2", "ssn", null, accessCard);
+        //Since sequences are generated beforehand by JPA, no issue with circularity
+        accessCard.setOwner(employee1);
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();

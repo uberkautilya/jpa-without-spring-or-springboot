@@ -30,7 +30,7 @@ public class JpaStarterRead {
         /**
          * AccessCard is fetched lazily. Hibernate fetch query is fired only when it is accessed
          */
-        System.out.println("***** About to access the accessCard *****");
+        System.out.println("***** About to access the accessCard. If LAZY fetchType, DB accessed at this point *****");
         System.out.println(employee);
         return employee;
     }
