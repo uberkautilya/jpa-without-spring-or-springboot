@@ -11,7 +11,12 @@ public class PayStub {
     private Date payPeriodStart;
     private Date payPeriodEnd;
     private float salary;
+    /**
+     * @JoinColumn is used to specify the name of the foreign key that needed on the DB side.
+     * Note the typical @Column annotation is replaced by this on a @ManyToOne relationship mapping
+     */
     @ManyToOne
+    @JoinColumn(name = "emp_id")
     private Employee employee;
 
     public PayStub() {
