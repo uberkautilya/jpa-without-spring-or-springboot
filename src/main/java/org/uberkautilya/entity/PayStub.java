@@ -14,6 +14,7 @@ public class PayStub {
     /**
      * @JoinColumn is used to specify the name of the foreign key that needed on the DB side.
      * Note the typical @Column annotation is replaced by this on a @ManyToOne relationship mapping
+     * cascade property to remove is not set on employee field - as when a payStub is removed, the employee should not be deleted
      */
     @ManyToOne
     @JoinColumn(name = "emp_id")

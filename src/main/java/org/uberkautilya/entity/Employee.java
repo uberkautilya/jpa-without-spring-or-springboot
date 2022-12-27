@@ -59,9 +59,10 @@ public class Employee {
     /**
      * Reverse of @ManyToOne on the employee entity. The PayStub owns the relationship - primary - as it contains the foreign key of employee entity
      * Default behavior of fetchType is LAZY by default
-     * Initialization done to support the method addPayStub()
+     * Initialization has been done to support the method addPayStub()
+     * cascade = CascadeType.REMOVE ensures that when an Employee is removed, the associated payslips are also removed
      */
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     private List<PayStub> payStubList = new ArrayList<>();
 
     /**
