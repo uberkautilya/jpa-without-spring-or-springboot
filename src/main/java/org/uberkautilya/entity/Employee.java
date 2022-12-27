@@ -64,6 +64,26 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<PayStub> payStubList = new ArrayList<>();
 
+    /**
+     * To specify the relationship described by employeeList variable on the EmailGroup is the same, mark it as the same relation
+     * Doesn't matter where the mappedBy property is assigned - in Employee or EmailGroup class
+     * If mappedBy is not provided in either class, two tables get created by JPA
+     */
+    @ManyToMany
+    private List<EmailGroup> emailGroupList = new ArrayList<>();
+
+    public List<EmailGroup> getEmailGroupList() {
+        return emailGroupList;
+    }
+
+    public void setEmailGroupList(List<EmailGroup> emailGroupList) {
+        this.emailGroupList = emailGroupList;
+    }
+
+    public void addEmailGroup(EmailGroup emailGroup) {
+        this.emailGroupList.add(emailGroup);
+    }
+
     public AccessCard getAccessCard() {
         return accessCard;
     }

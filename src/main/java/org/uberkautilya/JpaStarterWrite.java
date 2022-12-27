@@ -1,9 +1,6 @@
 package org.uberkautilya;
 
-import org.uberkautilya.entity.AccessCard;
-import org.uberkautilya.entity.Employee;
-import org.uberkautilya.entity.EmployeeType;
-import org.uberkautilya.entity.PayStub;
+import org.uberkautilya.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -74,13 +71,13 @@ public class JpaStarterWrite {
     }
 
     private static void createEmployees(EntityManager entityManager) {
-        PayStub payStub1 = new PayStub(new Date(), new Date(), 52000f);
-        PayStub payStub2 = new PayStub(new Date(), new Date(), 59000f);
         AccessCard accessCard1 = getAccessCard();
         Employee employee1 = getEmployee(null, "Kautilya1", "sss", null, accessCard1);
         Employee employee2 = getEmployee(null, "Kautilya2", "ssn", null, accessCard1);
         //Since sequences are generated beforehand by JPA, no issue with circularity
         accessCard1.setOwner(employee1);
+        PayStub payStub1 = new PayStub(new Date(), new Date(), 52000f);
+        PayStub payStub2 = new PayStub(new Date(), new Date(), 59000f);
         payStub1.setEmployee(employee1);
         payStub2.setEmployee(employee1);
         /**
@@ -95,6 +92,15 @@ public class JpaStarterWrite {
          * employee1.addPayStub(payStub1);
          */
 
+        EmailGroup emailGroup1 = new EmailGroup("Company Watercooler discussions");
+        emailGroup1.addEmployee(employee1);
+        emailGroup1.addEmployee(employee2);
+        employee1.addEmailGroup(emailGroup1);
+        employee2.addEmailGroup(emailGroup1);
+        EmailGroup emailGroup2 = new EmailGroup("Engineering");
+        emailGroup2.addEmployee(employee1);
+        employee1.addEmailGroup(emailGroup2);
+
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -106,6 +112,8 @@ public class JpaStarterWrite {
         entityManager.persist(accessCard1);
         entityManager.persist(payStub1);
         entityManager.persist(payStub2);
+        entityManager.persist(emailGroup1);
+        entityManager.persist(emailGroup2);
 
         transaction.commit();
     }
