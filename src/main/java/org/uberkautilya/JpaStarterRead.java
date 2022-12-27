@@ -32,6 +32,8 @@ public class JpaStarterRead {
          */
         System.out.println("***** About to access the accessCard. If LAZY fetchType, DB accessed at this point *****");
         System.out.println(employee);
+        System.out.println("***** About to access the payStubList in employee. If LAZY fetchType, DB accessed at this point *****");
+        System.out.println(employee.getPayStubList());
         return employee;
     }
 }

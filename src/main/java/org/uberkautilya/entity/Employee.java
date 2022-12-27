@@ -2,7 +2,9 @@ package org.uberkautilya.entity;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //@Entity tells the JPA that it needs to make the ORM for it - a concern for it
 //@Table notifies it as a table, name being an optional attribute
@@ -53,6 +55,14 @@ public class Employee {
     //FetchType.EAGER is the default behavior. When LAZY, JPA fetches the accessCard only when it is explicitly used in the code
     @OneToOne(fetch = FetchType.EAGER)
     private AccessCard accessCard;
+
+    /**
+     * Reverse of @ManyToOne on the employee entity. The PayStub owns the relationship - primary - as it contains the foreign key of employee entity
+     * Default behavior of fetchType is LAZY by default
+     * Initialization done to support the method addPayStub()
+     */
+    @OneToMany(mappedBy = "employee")
+    private List<PayStub> payStubList = new ArrayList<>();
 
     public AccessCard getAccessCard() {
         return accessCard;
@@ -108,6 +118,18 @@ public class Employee {
 
     public void setType(EmployeeType type) {
         this.type = type;
+    }
+
+    public List<PayStub> getPayStubList() {
+        return payStubList;
+    }
+
+    public void setPayStubList(List<PayStub> payStubList) {
+        this.payStubList = payStubList;
+    }
+
+    public void addPayStub(PayStub payStub) {
+        this.payStubList.add(payStub);
     }
 
     @Override

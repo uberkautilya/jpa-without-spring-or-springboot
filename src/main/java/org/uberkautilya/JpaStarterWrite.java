@@ -3,12 +3,15 @@ package org.uberkautilya;
 import org.uberkautilya.entity.AccessCard;
 import org.uberkautilya.entity.Employee;
 import org.uberkautilya.entity.EmployeeType;
+import org.uberkautilya.entity.PayStub;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class JpaStarterWrite {
@@ -25,8 +28,6 @@ public class JpaStarterWrite {
         if (false) {
             deleteEmployee(entityManager, employee);
         }
-
-//        createAccessCards(entityManager);
 
         entityManager.close();
         myAppEntityManagerFactory.close();
@@ -73,11 +74,27 @@ public class JpaStarterWrite {
     }
 
     private static void createEmployees(EntityManager entityManager) {
-        AccessCard accessCard = getAccessCard();
-        Employee employee1 = getEmployee(null, "Kautilya1", "sss", null, accessCard);
-        Employee employee2 = getEmployee(null, "Kautilya2", "ssn", null, accessCard);
+        PayStub payStub1 = new PayStub(new Date(), new Date(), 52000f);
+        PayStub payStub2 = new PayStub(new Date(), new Date(), 59000f);
+        AccessCard accessCard1 = getAccessCard();
+        Employee employee1 = getEmployee(null, "Kautilya1", "sss", null, accessCard1);
+        Employee employee2 = getEmployee(null, "Kautilya2", "ssn", null, accessCard1);
         //Since sequences are generated beforehand by JPA, no issue with circularity
-        accessCard.setOwner(employee1);
+        accessCard1.setOwner(employee1);
+        payStub1.setEmployee(employee1);
+        payStub2.setEmployee(employee1);
+        /**
+         * The below line is not strictly required as payStub objects have this information. However we need to rely on java objects having the relationships
+         * With JPA, hard to tell for sure when a particular object is going to be persisted into the DB. Recommended to keep data consistent
+         * Hence relationships need to be populated from both sides
+         */
+        employee1.setPayStubList(Arrays.asList(payStub1, payStub2));
+        /**
+         * Alternatively, use employee1.addPayStub(payStub1) immediately after payStub1.setEmployee(employee1)
+         * payStub1.setEmployee(employee1);
+         * employee1.addPayStub(payStub1);
+         */
+
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -86,7 +103,9 @@ public class JpaStarterWrite {
         entityManager.persist(employee2);
         //The order of insertion doesn't matter - as it is within a transaction and managed by JPA?
         //Also, when there is no cascade strategy, the save of the accessCard needs to be explicit
-        entityManager.persist(accessCard);
+        entityManager.persist(accessCard1);
+        entityManager.persist(payStub1);
+        entityManager.persist(payStub2);
 
         transaction.commit();
     }
