@@ -12,9 +12,10 @@ public class EmailGroup {
     private String name;
     /**
      * If you need to track the relationship in a single join table, need mappedBy in either of the 2 classes - EmailGroup or Employee
-     * The below annotation shows that each of the Employee objects has a field emailGroupList which tracks its email groups
+     * The below annotation shows that each of the Employee objects has a field emailGroupList which tracks it's email groups
+     * An email group is likely to have many employees. Hence fetching employees via the default LAZY fetchType
      */
-    @ManyToMany(mappedBy = "emailGroupList")
+    @ManyToMany(mappedBy = "emailGroupList", fetch = FetchType.LAZY)
     private List<Employee> employeeList = new ArrayList<>();
 
     public EmailGroup() {

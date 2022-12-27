@@ -65,11 +65,16 @@ public class Employee {
     private List<PayStub> payStubList = new ArrayList<>();
 
     /**
-     * To specify the relationship described by employeeList variable on the EmailGroup is the same, mark it as the same relation
-     * Doesn't matter where the mappedBy property is assigned - in Employee or EmailGroup class
+     * To specify the relationship described by employeeList variable on the EmailGroup is the same, mark it as the same relation with mappedBy
+     * The class which doesn't have mappedBy property is the owning side of the relationship - on which @JoinTable can be applied
      * If mappedBy is not provided in either class, two tables get created by JPA
+     * An Employee is likely to have few EmailGroup as against it's corollary. Hence the default LAZY mode is overridden her with EAGER
+     * joinColumns property can be used to customize the mapping table created. inverseJoinColumns specify the other foreign keys in the join table
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "EMAIL_GROUP_MAPPING",
+            joinColumns = @JoinColumn(name = "EMPLOYEE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "EMAIL_GROUP_ID"))
     private List<EmailGroup> emailGroupList = new ArrayList<>();
 
     public List<EmailGroup> getEmailGroupList() {

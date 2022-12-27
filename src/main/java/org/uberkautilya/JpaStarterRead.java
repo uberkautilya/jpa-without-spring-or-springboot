@@ -1,5 +1,6 @@
 package org.uberkautilya;
 
+import org.uberkautilya.entity.EmailGroup;
 import org.uberkautilya.entity.Employee;
 
 import javax.persistence.EntityManager;
@@ -14,9 +15,17 @@ public class JpaStarterRead {
         EntityManager entityManager = myAppEntityManagerFactory.createEntityManager();
 
         readEmployeeWithPrimaryKey(entityManager);
+        readEmailGroup(entityManager);
 
         entityManager.close();
         myAppEntityManagerFactory.close();
+    }
+
+    private static void readEmailGroup(EntityManager entityManager) {
+        EmailGroup emailGroup = entityManager.find(EmailGroup.class, 6);
+        System.out.println("Email Group: " + emailGroup);
+        System.out.println("**** Accessing employee list in the fetched email group. @ManyToMany default fetchType is LAZY ****");
+        System.out.println(emailGroup.getEmployeeList());
     }
 
     private static Employee readEmployeeWithPrimaryKey(EntityManager entityManager) {
