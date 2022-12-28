@@ -73,6 +73,18 @@ public class JpaJPQLExample {
         jpqlParametersQueryResultList.forEach(System.out::println);
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
 
+
+        /**
+         * Calling a @NamedQuery 'emp name asc' defined on the entity Employee class
+         */
+        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°Named Query°°°°°°°°°°°");
+        int age = 21;
+        TypedQuery<Employee> namedQuery = entityManager.createNamedQuery("emp name asc", Employee.class);
+        namedQuery.setParameter("minAge", age);
+        List<Employee> namedQueryResultList = namedQuery.getResultList();
+        namedQueryResultList.forEach(System.out::println);
+        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
+
         entityManager.close();
         entityManagerFactory.close();
     }

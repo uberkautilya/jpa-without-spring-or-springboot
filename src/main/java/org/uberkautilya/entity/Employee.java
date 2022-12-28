@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Entity tells the JPA that it needs to make the ORM for it - a concern for it
-//@Table notifies it as a table, name being an optional attribute
-//Other options like schema, catalog(equivalent to schema in certain DBs)
+/**
+ * @Entity tells the JPA that it needs to make the ORM for it - a concern for it
+ * @Table notifies it as a table, name being an optional attribute
+ * Other options like schema, catalog(equivalent to schema in certain DBs)
+ * @NamedQuery allows defining certain often repeated queries, called using its name later
+ */
+
 @Entity
 @Table(name = "EMPLOYEE_DATA")
+@NamedQuery(query = "select e from Employee e where e.age >= :minAge order by e.name", name = "emp name asc")
 public class Employee {
     //@Id is used to specify the primary key column
     //@Id can be a String - however performance implications
