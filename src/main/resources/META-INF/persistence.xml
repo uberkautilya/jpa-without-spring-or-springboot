@@ -32,7 +32,7 @@
     </persistence-unit>
 </persistence>
 <!--
-The persistence.xml defines the context of the JPA - metadata on the behavior, transaction related option
+The persistence.xml defines the context of the JPA - metadata on the behavior, transaction related options
 
 xmlns... is the schema of the xml used
 
