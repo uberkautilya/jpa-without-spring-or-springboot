@@ -58,6 +58,21 @@ public class JpaJPQLExample {
         customTypeQueryResultList.forEach(x -> System.out.println("Name: " + x[0] + "| Age: " + x[1] + "| dob: " + x[2] + "| issueDate: " + x[3]));
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
 
+
+        /**
+         * JPQL parameters to stub where clause:
+         * "select e from Employee e where e.accessCard.firmwareVersion = " + minAge not a good idea due to SQL injection:
+         * Malicious actor could inject a value to manipulate queries. Params allow only stubbing a single value: Safe
+         */
+        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°JPQL parameters°°°°°°°");
+        int minAge = 20;
+        String queryStr = "select e from Employee e where e.age = :minAge";
+        TypedQuery<Employee> entityManagerParametersQuery = entityManager.createQuery(queryStr, Employee.class);
+        entityManagerParametersQuery.setParameter("minAge", minAge);
+        List<Employee> jpqlParametersQueryResultList = entityManagerParametersQuery.getResultList();
+        jpqlParametersQueryResultList.forEach(System.out::println);
+        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
+
         entityManager.close();
         entityManagerFactory.close();
     }
