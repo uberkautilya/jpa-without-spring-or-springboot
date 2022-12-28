@@ -22,6 +22,10 @@ public class JpaStarterDelete {
         Employee employee = entityManager.find(Employee.class, BigInteger.valueOf(1));
         transaction.begin();
 
+        /**
+         * entityManger.remove(employee) takes the employee from the managed state to the Removed state
+         * A entityManager.persist(employee) will take the same instance back to the managed state
+         */
         entityManager.remove(employee);
 
         transaction.commit();
